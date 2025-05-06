@@ -1,91 +1,43 @@
 const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const app = express();
 
-// Middleware
+mongoose.connect('mongodb://localhost:27017/todoDB');
+
+const itemSchema = new mongoose.Schema({ task: String });
+const Item = mongoose.model('Item', itemSchema);
+
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json()); // Needed for PUT and DELETE JSON body
 app.set('view engine', 'ejs');
-app.use(express.static('public')); // For static files like CSS
+app.use(express.static("public"));
 
-// MongoDB connection
-const uri = 'mongodb+srv://ak1:ak1@cluster0.oirfx2r.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster0';
-
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("Connected to MongoDB Atlas!");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB Atlas:", err);
-  });
-
-// MongoDB Task Schema
-const taskSchema = new mongoose.Schema({
-    title: String,
-    priority: String,
-    completed: { type: Boolean, default: false }
-});
-
-const Task = mongoose.model('Task', taskSchema);
-
-// Route to get all tasks
+// Show tasks
 app.get('/', async (req, res) => {
-    try {
-        const tasks = await Task.find({});
-        res.render('list', { tasks: tasks });
-    } catch (err) {
-        console.error("Error fetching tasks:", err);
-        res.status(500).send("Error fetching tasks");
-    }
+  const items = await Item.find();
+  res.render('index', { listItems: items });
 });
 
-// Route to add a new task
+// Add task
 app.post('/add', async (req, res) => {
-    try {
-        const newTask = new Task({
-            title: req.body.taskTitle,
-            priority: req.body.priority
-        });
-
-        await newTask.save();
-        res.redirect('/');
-    } catch (err) {
-        console.error("Error saving task:", err);
-        res.status(500).send("Error adding task");
-    }
+  const item = new Item({ task: req.body.task });
+  await item.save();
+  res.redirect('/');
 });
 
-// Route to delete a task
-app.post('/delete', async (req, res) => {
-    const taskId = req.body.taskId;
-
-    try {
-        await Task.findByIdAndDelete(taskId);
-        res.redirect('/');
-    } catch (err) {
-        console.error("Error deleting task:", err);
-        res.status(500).send("Error deleting task");
-    }
+// PUT update
+app.put('/edit/:id', async (req, res) => {
+  await Item.findByIdAndUpdate(req.params.id, { task: req.body.task });
+  res.json({ message: 'Updated' });
 });
 
-
-// Route to edit a task
-app.post('/edit', async (req, res) => {
-    const taskId = req.body.taskId;
-    const updatedTitle = req.body.updatedTitle;
-    const updatedPriority = req.body.updatedPriority;
-
-    try {
-        await Task.findByIdAndUpdate(taskId, { title: updatedTitle, priority: updatedPriority });
-        res.redirect('/');
-    } catch (err) {
-        console.error("Error updating task:", err);
-        res.status(500).send("Error updating task");
-    }
+// DELETE
+app.delete('/delete/:id', async (req, res) => {
+  await Item.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Deleted' });
 });
 
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
 });
