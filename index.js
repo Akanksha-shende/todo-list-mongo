@@ -9,7 +9,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public')); // For static files like CSS
 
 // MongoDB connection
-const uri = 'mongodb+srv://ak1:uak1@cluster0.oirfx2r.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster0';
+const uri = 'mongodb+srv://ak1:ak1@cluster0.oirfx2r.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
