@@ -1,0 +1,146 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f9; /* Light background for a clean look */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Container */
+.container {
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Adjust width for better responsiveness */
+    text-align: center;
+}
+
+/* Header Styling */
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Input, Select, Button Styling */
+form input,
+form select,
+form button {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+/* Hover effect for inputs */
+form input:focus,
+form select:focus,
+form button:hover {
+    border-color: #0056b3;
+}
+
+/* Button Styling */
+button {
+    background-color: #0056b3;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #004494;
+}
+
+/* Task List Styling */
+ul.task-list {
+    list-style-type: none;
+    margin-top: 20px;
+}
+
+ul.task-list .task-item {
+    background-color: #f9f9f9;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul.task-list .task-item p {
+    font-size: 1rem;
+    color: #333;
+    flex-grow: 1;
+}
+
+/* Edit Form inside Task Item */
+.edit-form input,
+.edit-form select {
+    width: 120px; /* Adjust width for better alignment */
+    margin-right: 10px;
+}
+
+/* Delete Button Styling */
+.delete-form button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-form button:hover {
+    background-color: #c0392b;
+}
+
+/* Completed Task Styling */
+.completed {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        max-width: 90%;
+    }
+
+    form input,
+    form select,
+    form button {
+        font-size: 0.9rem;
+    }
+
+    ul.task-list .task-item {
+        padding: 12px;
+    }
+
+    .task-item p {
+        font-size: 0.9rem;
+    }
+}
